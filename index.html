@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Kneading Room · a cosy cat fostering game</title>
+  <meta name="description" content="A cosy, hand-drawn cat fostering game. Meet your visitors, listen to what they need, and match them with the right cat.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- SVG filters that make the CSS panels look hand-drawn (wobbly edges) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <filter id="wob" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.026" numOctaves="2" seed="4" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="4.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wobB" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.034" numOctaves="2" seed="13" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="4.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs></svg>
+
+  <!-- p5 draws the hand-drawn front door into this box (see sketch.js).
+       It is decorative, so screen readers skip it; the sign's state is announced below. -->
+  <div id="stage" aria-hidden="true"></div>
+
+  <div class="panel hud">Day 1 · Visit 1 of 5</div>
+
+  <!-- Pop-up -->
+  <div class="overlay" id="overlay">
+    <div class="panel popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+      <p class="kicker">The Kneading Room</p>
+      <h1 id="popup-title">Hey there! Get ready for another purr-fect day!</h1>
+      <button type="button" class="btn" id="flip-btn">Flip the sign to OPEN</button>
+    </div>
+  </div>
+
+  <!-- Narration box (appears once the sign says OPEN) -->
+  <div class="panel narration" id="narration" hidden>
+    <p>You flip the sign to OPEN. The Kneading Room is ready for its first visitor.</p>
+  </div>
+
+  <p class="sr-only" id="status" aria-live="polite"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+  <script src="sketch.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

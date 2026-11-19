@@ -1,0 +1,147 @@
+/* The Kneading Room · page 1
+   Hand-drawn paper UI: cream paper, brown ink, wobbly edges via SVG filters. */
+
+:root {
+  --ink: #4A2F29;
+  --ink-soft: #6B4A3E;
+  --paper: #F6E4C8;
+  --cream: #FFF9F1;
+  --sage: #A9C4A1;
+  --sage-deep: #8DB387;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+
+body {
+  font-family: "Patrick Hand", "Comic Sans MS", cursive;
+  color: var(--ink);
+  background: var(--paper);
+  overflow-x: hidden;
+}
+
+/* The p5 canvas is meant to live in here, filling the window behind the UI. */
+#stage { position: fixed; inset: 0; z-index: 0; }
+#stage canvas {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* A "panel" is paper with a wobbly ink border and a dashed stitch line.
+   The border lives on pseudo-elements so the filter never distorts the text. */
+.panel { position: relative; isolation: isolate; }
+.panel::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  box-shadow: 0 7px 0 rgba(107, 74, 62, 0.18);
+  filter: url(#wob);
+}
+.panel::after {
+  content: "";
+  position: absolute; inset: 8px; z-index: -1;
+  border: 2px dashed rgba(107, 74, 62, 0.4);
+  border-radius: 18px;
+  filter: url(#wobB);
+}
+
+/* top-left pill */
+.hud {
+  position: fixed; top: 24px; left: 24px; z-index: 2;
+  padding: 10px 28px;
+  font-size: 1.3rem;
+}
+.hud::before, .hud::after { border-radius: 999px; }
+
+/* pop-up, centred over the scene */
+.overlay {
+  position: fixed; inset: 0; z-index: 3;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(246, 228, 200, 0.4);
+}
+.popup {
+  width: min(520px, 100%);
+  padding: clamp(26px, 5vw, 44px);
+  text-align: center;
+  animation: pop-in 650ms cubic-bezier(.2, .9, .3, 1.25) both;
+}
+.kicker {
+  margin: 0 0 6px;
+  font-family: "Gaegu", cursive;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  color: #A5554F;
+}
+.popup h1 {
+  margin: 0 0 24px;
+  font-family: "Gaegu", cursive;
+  font-weight: 700;
+  font-size: clamp(2rem, 7vw, 3rem);
+  line-height: 1.1;
+}
+
+/* buttons use the same paper trick, in sage green */
+.btn {
+  position: relative; isolation: isolate;
+  padding: 12px 30px;
+  font: inherit;
+  font-size: 1.35rem;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: transform 120ms;
+}
+.btn::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background: var(--sage);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 0 5px 0 rgba(107, 74, 62, 0.25);
+  filter: url(#wob);
+}
+.btn:hover { transform: translateY(-2px) rotate(-0.6deg); }
+.btn:active { transform: translateY(3px); }
+.btn:focus-visible { outline: 3px dashed var(--ink); outline-offset: 6px; }
+
+/* narration box at the bottom */
+.narration {
+  position: fixed; z-index: 2;
+  left: 50%; bottom: 28px;
+  width: min(760px, calc(100% - 32px));
+  padding: 22px 30px;
+  transform: translateX(-50%);
+  font-size: clamp(1.2rem, 3.2vw, 1.5rem);
+  line-height: 1.45;
+  animation: rise 600ms ease-out both;
+}
+.narration p { margin: 0; }
+
+[hidden] { display: none !important; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.82) rotate(-2deg); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translate(-50%, 18px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup, .narration { animation: none; }
+  .btn { transition: none; }
+}
