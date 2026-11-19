@@ -1,5 +1,5 @@
 /* ──────────────────────────────────────────────────────────────
-   The Kneading Room · page 1 · sketch.js
+   The Cat Cafe · page 1 · sketch.js
    A hand-drawn front door, drawn live with p5.js (global mode).
 
    p5 in one breath:
@@ -13,7 +13,6 @@
         re-rolls ~6x a second so the lines gently "boil"
    ────────────────────────────────────────────────────────────── */
 
-// Add ?fixed to the URL to see the working version (see STRUGGLE_BUS.md).
 const FIXED = new URLSearchParams(location.search).has('fixed');
 
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
