@@ -1,4 +1,4 @@
-/* The Kneading Room · page 1 · game.js
+/* The Cat Cafe · page 1 · game.js
    Plain JavaScript: pop-up → flip the sign to OPEN → narration.
    (The first customer walking in comes on the next page.) */
 
